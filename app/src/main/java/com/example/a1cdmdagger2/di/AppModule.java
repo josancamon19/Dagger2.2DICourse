@@ -14,6 +14,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.a1cdmdagger2.util.Constants.BASE_URL;
 
 @Module
 public class AppModule {
@@ -22,6 +26,15 @@ public class AppModule {
     // retrofit glide instances for example, things wont change through the app lifetime
 
     // @Provides is used for declare a dependency, static is required!!
+
+    @Singleton
+    @Provides
+    static Retrofit provideRetrofitInstance(){
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
 
     @Singleton
     @Provides
