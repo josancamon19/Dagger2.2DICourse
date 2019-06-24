@@ -1,6 +1,7 @@
 package com.example.a1cdmdagger2.di;
 
-import com.example.a1cdmdagger2.AuthActivity;
+import com.example.a1cdmdagger2.di.auth.AuthViewModelsModule;
+import com.example.a1cdmdagger2.ui.auth.AuthActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -8,7 +9,9 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuildersModule {
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(
+            modules = {AuthViewModelsModule.class} // Only Auth Activity will be able to use AuthViewModel
+    )
     abstract AuthActivity contributeAuthActivity();
 
     // All the activity declarations
