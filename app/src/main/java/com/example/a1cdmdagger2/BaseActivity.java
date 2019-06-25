@@ -40,6 +40,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
                         case ERROR:
                             break;
                         case NOT_AUTHENTICATED:
+                            navLoginScreen();
                             break;
                     }
                 }

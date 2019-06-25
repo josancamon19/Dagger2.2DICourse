@@ -2,6 +2,7 @@ package com.example.a1cdmdagger2.di;
 
 import com.example.a1cdmdagger2.di.auth.AuthModule;
 import com.example.a1cdmdagger2.di.auth.AuthViewModelsModule;
+import com.example.a1cdmdagger2.di.main.MainFragmentBuildersModule;
 import com.example.a1cdmdagger2.ui.auth.AuthActivity;
 import com.example.a1cdmdagger2.ui.main.MainActivity;
 
@@ -16,7 +17,9 @@ public abstract class ActivityBuildersModule {
     )
     abstract AuthActivity contributeAuthActivity();
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(
+            modules = {MainFragmentBuildersModule.class}
+    )
     abstract MainActivity contributeMainActivity();
 
     // All the activity declarations
