@@ -1,5 +1,6 @@
 package com.example.a1cdmdagger2.ui.auth;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.RequestManager;
 import com.example.a1cdmdagger2.R;
 import com.example.a1cdmdagger2.models.User;
+import com.example.a1cdmdagger2.ui.main.MainActivity;
 import com.example.a1cdmdagger2.viewmodels.ViewModelProviderFactory;
 
 import javax.inject.Inject;
@@ -50,7 +52,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
     private void setupViewModel() {
         viewModel = ViewModelProviders.of(this, providerFactory).get(AuthViewModel.class);
-        viewModel.getUser().observe(this, new Observer<AuthResource<User>>() {
+        viewModel.observeAuthState().observe(this, new Observer<AuthResource<User>>() {
             @Override
             public void onChanged(AuthResource<User> userAuthResource) {
                 if (userAuthResource != null) {
@@ -61,6 +63,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                         case AUTHENTICATED:
                             changePb(false);
                             Timber.d("User AUTHENTICATED:%s", userAuthResource.data.getEmail());
+                            onLoginSuccess();
                             break;
                         case ERROR:
                             changePb(false);
@@ -73,6 +76,12 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                 }
             }
         });
+    }
+
+    private void onLoginSuccess(){
+        Intent  intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void changePb(boolean pbVisibility) {
