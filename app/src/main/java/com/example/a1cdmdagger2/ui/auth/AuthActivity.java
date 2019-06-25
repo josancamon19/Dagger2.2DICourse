@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -23,6 +24,7 @@ import timber.log.Timber;
 public class AuthActivity extends DaggerAppCompatActivity implements View.OnClickListener {
 
     private EditText etUserId;
+    private ProgressBar pb;
 
     @Inject
     ViewModelProviderFactory providerFactory;
@@ -40,21 +42,45 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         setLogo();
 
         etUserId = findViewById(R.id.user_id_input);
+        pb = findViewById(R.id.progress_bar);
         findViewById(R.id.login_button).setOnClickListener(this);
 
         setupViewModel();
     }
 
-    private void setupViewModel(){
+    private void setupViewModel() {
         viewModel = ViewModelProviders.of(this, providerFactory).get(AuthViewModel.class);
-        viewModel.getUser().observe(this, new Observer<User>() {
+        viewModel.getUser().observe(this, new Observer<AuthResource<User>>() {
             @Override
-            public void onChanged(User user) {
-                 if (user != null){
-                     Timber.d("User authenticated %s", user.getEmail());
-                 }
+            public void onChanged(AuthResource<User> userAuthResource) {
+                if (userAuthResource != null) {
+                    switch (userAuthResource.status) {
+                        case LOADING:
+                            changePb(true);
+                            break;
+                        case AUTHENTICATED:
+                            changePb(false);
+                            Timber.d("User AUTHENTICATED:%s", userAuthResource.data.getEmail());
+                            break;
+                        case ERROR:
+                            changePb(false);
+                            Timber.e(userAuthResource.message);
+                            break;
+                        case NOT_AUTHENTICATED:
+                            changePb(false);
+                            break;
+                    }
+                }
             }
         });
+    }
+
+    private void changePb(boolean pbVisibility) {
+        if (pbVisibility) {
+            pb.setVisibility(View.VISIBLE);
+        } else {
+            pb.setVisibility(View.GONE);
+        }
     }
 
     private void setLogo() {
@@ -69,7 +95,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     }
 
     private void attemptLogin() {
-        if (TextUtils.isEmpty(etUserId.getText().toString())){
+        if (TextUtils.isEmpty(etUserId.getText().toString())) {
             return;
         }
         viewModel.authenticateWithId(Integer.parseInt(etUserId.getText().toString()));
