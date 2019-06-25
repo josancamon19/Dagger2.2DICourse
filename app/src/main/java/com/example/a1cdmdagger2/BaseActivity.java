@@ -18,7 +18,7 @@ import timber.log.Timber;
 public abstract class BaseActivity extends DaggerAppCompatActivity {
 
     @Inject
-    public SesionManager sesionManager;
+    public SessionManager sessionManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
@@ -27,19 +27,22 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     }
 
     public void subscribeObservers() {
-        sesionManager.getAuthUser().observe(this, new Observer<AuthResource<User>>() {
+        sessionManager.getAuthUser().observe(this, new Observer<AuthResource<User>>() {
             @Override
             public void onChanged(AuthResource<User> userAuthResource) {
+                Timber.d("Change found on Base Act");
                 if (userAuthResource != null) {
                     switch (userAuthResource.status) {
                         case LOADING:
                             break;
                         case AUTHENTICATED:
-                            Timber.d("User AUTHENTICATED:%s", userAuthResource.data.getEmail());
+                            Timber.d("User AUTHENTICATED email: %s", userAuthResource.data.getEmail());
                             break;
                         case ERROR:
+                            Timber.e("Base Activity ERROR");
                             break;
                         case NOT_AUTHENTICATED:
+                            Timber.e("Logout in NOT_AUTHENTICATED");
                             navLoginScreen();
                             break;
                     }
@@ -47,6 +50,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
             }
         });
     }
+
     private void navLoginScreen(){
         Intent intent =new Intent(this, AuthActivity.class);
         startActivity(intent);

@@ -78,8 +78,8 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         });
     }
 
-    private void onLoginSuccess(){
-        Intent  intent = new Intent(this, MainActivity.class);
+    private void onLoginSuccess() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

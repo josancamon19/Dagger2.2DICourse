@@ -13,11 +13,11 @@ import javax.inject.Singleton;
 import timber.log.Timber;
 
 @Singleton
-public class SesionManager {
+public class SessionManager {
     private MediatorLiveData<AuthResource<User>> cachedUser = new MediatorLiveData<>();
 
     @Inject
-    public SesionManager() {
+    public SessionManager() {
 
     }
 

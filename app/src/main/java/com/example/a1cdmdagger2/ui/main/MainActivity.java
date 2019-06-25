@@ -20,7 +20,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void testFragment() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ProfileFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container,
+                        new ProfileFragment())
+                .commit();
     }
 
     @Override
@@ -31,9 +35,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
-            sesionManager.logout();
+        switch (item.getItemId()) {
+            case R.id.logout:
+                sessionManager.logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -2,11 +2,9 @@ package com.example.a1cdmdagger2.ui.auth;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.example.a1cdmdagger2.SesionManager;
+import com.example.a1cdmdagger2.SessionManager;
 import com.example.a1cdmdagger2.models.User;
 import com.example.a1cdmdagger2.network.auth.AuthApi;
 
@@ -19,18 +17,18 @@ import timber.log.Timber;
 public class AuthViewModel extends ViewModel {
 
     private final AuthApi authApi;
-    private final SesionManager sesionManager;
+    private final SessionManager sessionManager;
 
     @Inject
-    public AuthViewModel(AuthApi authApi, SesionManager sesionManager) {
+    public AuthViewModel(AuthApi authApi, SessionManager sessionManager) {
         this.authApi = authApi;
-        this.sesionManager = sesionManager;
+        this.sessionManager = sessionManager;
         Timber.d("AuthViewModel Constructor");
 
     }
 
     public void authenticateWithId(int id) {
-        sesionManager.authenticateWithId(queryUserId(id));
+        sessionManager.authenticateWithId(queryUserId(id));
     }
 
     private LiveData<AuthResource<User>> queryUserId(int id) {
@@ -59,6 +57,6 @@ public class AuthViewModel extends ViewModel {
     }
 
     public LiveData<AuthResource<User>> observeAuthState() {
-        return sesionManager.getAuthUser();
+        return sessionManager.getAuthUser();
     }
 }
