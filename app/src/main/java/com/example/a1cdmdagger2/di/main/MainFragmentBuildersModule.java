@@ -1,5 +1,6 @@
 package com.example.a1cdmdagger2.di.main;
 
+import com.example.a1cdmdagger2.ui.main.posts.PostsFragment;
 import com.example.a1cdmdagger2.ui.main.profile.ProfileFragment;
 
 import dagger.Module;
@@ -10,4 +11,7 @@ public abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract ProfileFragment contributeProfileFragment();
+
+    @ContributesAndroidInjector
+    abstract PostsFragment contributePostsFragment();
 }

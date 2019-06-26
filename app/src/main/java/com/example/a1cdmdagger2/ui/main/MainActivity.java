@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.a1cdmdagger2.BaseActivity;
 import com.example.a1cdmdagger2.R;
+import com.example.a1cdmdagger2.ui.main.posts.PostsFragment;
 import com.example.a1cdmdagger2.ui.main.profile.ProfileFragment;
 
 public class MainActivity extends BaseActivity {
@@ -23,7 +24,7 @@ public class MainActivity extends BaseActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container,
-                        new ProfileFragment())
+                        new PostsFragment())
                 .commit();
     }
 

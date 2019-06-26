@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">1. CDM Dagger2</string>
+    <string name="posts">Posts</string>
+    <string name="profile">Profile</string>
 </resources>
