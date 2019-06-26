@@ -3,6 +3,7 @@ package com.example.a1cdmdagger2.di;
 import android.app.Application;
 
 import com.example.a1cdmdagger2.BaseApplication;
+import com.example.a1cdmdagger2.SessionManager;
 
 import javax.inject.Singleton;
 
@@ -19,6 +20,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         ViewModelFactoryModule.class,  // This Module will be used by all the project ViewModel Components
 })
 public interface AppComponent extends AndroidInjector<BaseApplication> {
+
+    SessionManager sessionManager();
 
     @Component.Builder
     interface Builder{
